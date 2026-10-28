@@ -1,37 +1,32 @@
 import type { Config } from 'tailwindcss'
 
+type ThemeMode = 'light' | 'dark'
+
 const config: Config = {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
       colors: {
-        brand: {
-          deep: {
-            DEFAULT: '#0a0e1a',
-            50: '#0d1117',
-            100: '#0f1520',
-            200: '#131a2b',
-            300: '#182035',
-            400: '#1e2840',
-            500: '#25324e',
+        mono: {
+          bg: {
+            DEFAULT: '#ffffff',
+            card: '#fafafa',
+            input: '#f5f5f5',
+            muted: '#e5e5e5',
           },
-          pastel: {
-            DEFAULT: '#bae6fd', // sky-200
-            50: '#f0f9ff',
-            100: '#e0f2fe',
-            200: '#bae6fd',
-            300: '#7dd3fc',
-            400: '#cbd5e1', // slate-300
-            500: '#94a3b8', // slate-400
+          ink: {
+            DEFAULT: '#171717',
+            muted: '#737373',
+            line: '#e5e5e5',
           },
-          highlight: {
-            DEFAULT: '#0ea5e9', // sky-500
-            50: '#38bdf8',  // sky-400
-            100: '#0ea5e9', // sky-500
-            200: '#0284c7', // sky-600
-            300: '#06b6d4', // cyan-500
-            400: '#8b5cf6', // violet-500 accent
-            500: '#f472b6', // pink-400 accent
+          inverse: {
+            bg: '#0a0a0a',
+            card: '#171717',
+            input: '#242424',
+            muted: '#333333',
+            line: '#333333',
+            ink: '#fafafa',
+            muted: '#a3a3a3',
           },
         },
       },
@@ -39,79 +34,9 @@ const config: Config = {
         sans: ['Inter', 'system-ui', 'sans-serif'],
         display: ['Bricolage Grotesque', 'system-ui', 'sans-serif'],
       },
-      typography: (theme: any) => ({
-        DEFAULT: {
-          css: {
-            color: theme('colors.brand.pastel.400'),
-            fontFamily: theme('fontFamily.sans').join(', '),
-            '[class~="lead"]': {
-              color: theme('colors.brand.pastel.300'),
-            },
-            a: {
-              color: theme('colors.brand.highlight.DEFAULT'),
-              '&:hover': {
-                color: theme('colors.brand.highlight.50'),
-              },
-            },
-            strong: {
-              color: theme('colors.brand.pastel.100'),
-            },
-            'ol > li::marker': {
-              color: theme('colors.brand.pastel.500'),
-            },
-            'ul > li::marker': {
-              color: theme('colors.brand.pastel.500'),
-            },
-            hr: {
-              borderColor: theme('colors.brand.deep.300'),
-            },
-            blockquote: {
-              color: theme('colors.brand.pastel.200'),
-              borderLeftColor: theme('colors.brand.highlight.DEFAULT'),
-            },
-            h1: {
-              color: theme('colors.brand.highlight.DEFAULT'),
-              fontFamily: theme('fontFamily.display').join(', '),
-              letterSpacing: '-0.02em',
-            },
-            h2: {
-              color: theme('colors.brand.highlight.DEFAULT'),
-              fontFamily: theme('fontFamily.display').join(', '),
-              letterSpacing: '-0.02em',
-            },
-            h3: {
-              color: theme('colors.brand.highlight.DEFAULT'),
-              fontFamily: theme('fontFamily.display').join(', '),
-              letterSpacing: '-0.02em',
-            },
-            h4: {
-              color: theme('colors.brand.highlight.DEFAULT'),
-              fontFamily: theme('fontFamily.display').join(', '),
-              letterSpacing: '-0.02em',
-            },
-            'figure figcaption': {
-              color: theme('colors.brand.pastel.500'),
-            },
-            code: {
-              color: theme('colors.brand.pastel.100'),
-            },
-            'a code': {
-              color: theme('colors.brand.pastel.100'),
-            },
-            pre: {
-              color: theme('colors.brand.pastel.200'),
-              backgroundColor: theme('colors.brand.deep.50'),
-            },
-            thead: {
-              color: theme('colors.brand.pastel.100'),
-              borderBottomColor: theme('colors.brand.deep.300'),
-            },
-            'tbody tr': {
-              borderBottomColor: theme('colors.brand.deep.300'),
-            },
-          },
-        },
-      }),
+      transitionTimingFunction: {
+        mono: 'cubic-bezier(0.25, 0.1, 0.25, 1)',
+      },
     },
   },
   plugins: [],

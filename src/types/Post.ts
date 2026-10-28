@@ -1,8 +1,9 @@
 /**
  * Represents a single blog post in Bloggie.
+ * Sincronizado con utils/markdown-parser.ts y pages/*.tsx
  */
 export interface Post {
-  /** Unique identifier for the post */
+  /** Unique identifier for the post (slug) */
   id: string;
 
   /** Title of the blog post */
@@ -17,11 +18,17 @@ export interface Post {
   /** Author information */
   author: Author;
 
-  /** Array of tag labels */
-  tags: string[];
+  /** Author image URL */
+  authorImage?: string;
 
   /** Optional cover image URL */
   coverImage?: string;
+
+  /** Category / tag */
+  category?: string;
+
+  /** Array of tag labels */
+  tags: string[];
 
   /** Estimated reading time in minutes */
   readingTime?: number;

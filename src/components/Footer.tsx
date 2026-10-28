@@ -4,6 +4,7 @@ import { socialLinks } from '../data/socialLinks';
 const footerLinks = {
   Producto: [
     { label: 'Blog', href: '/' },
+    { label: 'Feed', href: '/feed' },
     { label: 'About', href: '/about' },
   ],
 };
@@ -12,37 +13,23 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer id="footer" className="flex relative mt-16 md:mt-24 border-t border-brand-deep-400/50">
-      {/* Glow accent */}
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-brand-highlight/40 to-transparent" />
-
+    <footer id="footer" className="relative mt-16 md:mt-24 border-t border-[#e5e5e5] dark:border-[#333333]">
       <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-10 md:py-12">
         <div className="flex flex-col md:flex-row gap-12 md:gap-24 pl-2 md:pl-8">
           {/* Brand column */}
           <div className="md:max-w-sm">
-            <a href="#" className="inline-flex items-center gap-3">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-brand-highlight to-brand-highlight-300">
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  className="h-4 w-4 text-white"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20" />
-                </svg>
+            <Link to="/" className="inline-flex items-center gap-3">
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#171717] text-white">
+                <span className="text-lg font-display font-bold">B</span>
               </div>
-              <span className="text-xl font-bold font-display text-gradient-brand">
+              <span className="text-xl font-bold font-display text-[#171717] dark:text-[#fafafa] tracking-tight">
                 Bloggie
               </span>
-            </a>
-            <p className="mt-4 max-w-xs text-sm leading-relaxed text-brand-pastel-500">
-              El blog para la gerencia, la tecnologia y el desarrollo de proyectos
+            </Link>
+            <p className="mt-4 max-w-xs text-sm leading-relaxed text-[#737373] dark:text-[#a3a3a3]">
+              El blog para la gerencia, la tecnología y el desarrollo de proyectos.
             </p>
 
-            {/* Social icons */}
             <div className="mt-6 flex gap-3">
               {Object.entries(socialLinks).map(([name, url]) => (
                 <a
@@ -51,7 +38,7 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={name}
-                  className="flex h-9 w-9 items-center justify-center rounded-lg bg-brand-deep-300/60 text-brand-pastel-500 transition-all duration-200 hover:bg-brand-highlight/20 hover:text-brand-highlight"
+                  className="flex h-9 w-9 items-center justify-center rounded-full border border-[#e5e5e5] text-[#737373] transition-all duration-200 hover:border-[#171717] hover:text-[#171717] dark:border-[#333333] dark:text-[#a3a3a3] dark:hover:border-[#fafafa] dark:hover:text-[#fafafa]"
                 >
                   <SocialIcon name={name} />
                 </a>
@@ -62,7 +49,7 @@ export default function Footer() {
           {/* Link columns */}
           {Object.entries(footerLinks).map(([heading, links]) => (
             <div key={heading}>
-              <h4 className="text-sm font-semibold uppercase tracking-wider text-brand-pastel-300">
+              <h4 className="text-sm font-semibold uppercase tracking-widest text-[#171717] dark:text-[#fafafa]">
                 {heading}
               </h4>
               <ul className="mt-4 space-y-3">
@@ -70,7 +57,7 @@ export default function Footer() {
                   <li key={link.label}>
                     <Link
                       to={link.href}
-                      className="text-sm text-brand-pastel-500 transition-colors duration-200 hover:text-brand-pastel"
+                      className="text-sm text-[#737373] transition-colors duration-200 hover:text-[#171717] dark:text-[#a3a3a3] dark:hover:text-[#fafafa]"
                     >
                       {link.label}
                     </Link>
@@ -81,15 +68,12 @@ export default function Footer() {
           ))}
         </div>
 
-        {/* Bottom bar */}
-        <div className="mt-16 flex flex-col items-center gap-4 border-t border-brand-deep-400/30 pt-8 sm:flex-row sm:justify-between">
-          <p className="text-xs text-brand-pastel-500/60">
+        <div className="mt-16 flex flex-col items-center gap-4 border-t border-[#e5e5e5] dark:border-[#333333] pt-8 sm:flex-row sm:justify-between">
+          <p className="text-xs text-[#a3a3a3] dark:text-[#737373]">
             © {currentYear} Bloggie. Todos los derechos reservados.
           </p>
-          <p className="text-xs text-brand-pastel-500/40">
-            Hecho con{' '}
-            <span className="text-brand-highlight-500">♥</span>{' '}
-            usando React + Tailwind CSS
+          <p className="text-xs text-[#a3a3a3] dark:text-[#737373]">
+            Hecho con ♥ usando React + Tailwind CSS
           </p>
         </div>
       </div>
@@ -97,7 +81,6 @@ export default function Footer() {
   );
 }
 
-/* ─── Inline Social Icons ─── */
 function SocialIcon({ name }: { name: string }) {
   switch (name) {
     case 'github':

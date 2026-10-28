@@ -1,192 +1,58 @@
-@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Inter:wght@300;400;500;600;700;900&display=swap');
 @import "tailwindcss";
-@plugin "@tailwindcss/typography";
 
-/* ─── Bloggie Design Tokens ─── */
 @theme {
-  /* Brand: Deep — Dark backgrounds */
-  --color-brand-deep: #0a0e1a;
-  --color-brand-deep-50: #0d1117;
-  --color-brand-deep-100: #0f1520;
-  --color-brand-deep-200: #131a2b;
-  --color-brand-deep-300: #182035;
-  --color-brand-deep-400: #1e2840;
-  --color-brand-deep-500: #25324e;
-
-  /* Brand: Pastel — Text & UI accents */
-  --color-brand-pastel: #bae6fd;
-  --color-brand-pastel-50: #f0f9ff;
-  --color-brand-pastel-100: #e0f2fe;
-  --color-brand-pastel-200: #bae6fd;
-  --color-brand-pastel-300: #7dd3fc;
-  --color-brand-pastel-400: #cbd5e1;
-  --color-brand-pastel-500: #94a3b8;
-
-  /* Brand: Highlight — Vibrant CTAs */
-  --color-brand-highlight: #0ea5e9;
-  --color-brand-highlight-50: #38bdf8;
-  --color-brand-highlight-100: #0ea5e9;
-  --color-brand-highlight-200: #0284c7;
-  --color-brand-highlight-300: #06b6d4;
-  --color-brand-highlight-400: #8b5cf6;
-  --color-brand-highlight-500: #f472b6;
-
-  /* Typography */
-  --font-sans: 'Inter', system-ui, sans-serif;
   --font-display: 'Bricolage Grotesque', system-ui, sans-serif;
+  --font-sans: 'Inter', system-ui, sans-serif;
 }
 
-/* ─── Global Resets & Base ─── */
-
-html {
-  scroll-behavior: smooth;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+/* System dark-mode / toggle via class */
+html.dark { color-scheme: dark; }
 
 body {
-  font-family: var(--font-sans);
-  background-color: var(--color-brand-deep);
-  color: var(--color-brand-pastel-400);
-  min-height: 100vh;
-  line-height: 1.6;
+  font-family: 'Inter', system-ui, sans-serif;
+  background: #ffffff;
+  color: #171717;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.55;
+  transition: background 0.4s ease, color 0.4s ease;
 }
 
-/* ─── Scrollbar ─── */
-::-webkit-scrollbar {
-  width: 6px;
+.dark body {
+  background: #0a0a0a;
+  color: #fafafa;
 }
 
-::-webkit-scrollbar-track {
-  background: var(--color-brand-deep-100);
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--color-brand-deep-500);
-  border-radius: 3px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--color-brand-highlight);
-}
-
-/* ─── Selection ─── */
 ::selection {
-  background-color: rgba(14, 165, 233, 0.3);
-  color: #f0f9ff;
+  background: rgba(23,23,23,0.12);
+}
+.dark ::selection {
+  background: rgba(250,250,250,0.18);
 }
 
-/* ─── Utility Animations ─── */
-@keyframes fade-in-up {
-  from {
-    opacity: 0;
-    transform: translateY(24px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+/* Thin structural lines everywhere */
+.line-struct {
+  border-top: 1px solid #e5e5e5;
+}
+.dark .line-struct { border-top-color: #333333; }
+
+/* Scrollbar thin */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #d4d4d4; border-radius: 99px; }
+.dark ::-webkit-scrollbar-thumb { background: #333333; }
+
+/* Animations */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes line-expand {
+  from { transform: scaleX(0); transform-origin: left; }
+  to { transform: scaleX(1); transform-origin: left; }
 }
 
-@keyframes fade-in {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
-
-@keyframes shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
-}
-
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50%      { transform: translateY(-8px); }
-}
-
-@keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 20px rgba(14, 165, 233, 0.15); }
-  50%      { box-shadow: 0 0 40px rgba(14, 165, 233, 0.3); }
-}
-
-.animate-fade-in-up {
-  animation: fade-in-up 0.7s ease-out both;
-}
-
-.animate-fade-in {
-  animation: fade-in 0.5s ease-out both;
-}
-
-.animate-float {
-  animation: float 6s ease-in-out infinite;
-}
-
-.animate-pulse-glow {
-  animation: pulse-glow 3s ease-in-out infinite;
-}
-
-/* Staggered children */
-.stagger > * {
-  animation: fade-in-up 0.6s ease-out both;
-}
-.stagger > *:nth-child(1) { animation-delay: 0.1s; }
-.stagger > *:nth-child(2) { animation-delay: 0.2s; }
-.stagger > *:nth-child(3) { animation-delay: 0.3s; }
-.stagger > *:nth-child(4) { animation-delay: 0.4s; }
-.stagger > *:nth-child(5) { animation-delay: 0.5s; }
-.stagger > *:nth-child(6) { animation-delay: 0.6s; }
-
-/* ─── Glassmorphism Utility ─── */
-.glass {
-  background: rgba(13, 17, 23, 0.6);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(186, 230, 253, 0.08);
-}
-
-/* ─── Gradient Text Utility ─── */
-.text-gradient-brand {
-  background: linear-gradient(135deg, #bae6fd 0%, #ffffff 50%, #7dd3fc 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.text-gradient-pastel {
-  background: linear-gradient(135deg, #bae6fd 0%, #38bdf8 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-/* ─── Markdown Prose Overrides ─── */
-.prose img {
-  border-radius: 0.75rem;
-  box-shadow: 0 4px 20px rgba(186, 230, 253, 0.15); /* Subtle pastel blue shadow */
-  border: 1px solid rgba(186, 230, 253, 0.1);
-}
-
-/* Ensure v4 prose works nicely if plugin overrides are not picked up */
-.prose {
-  font-family: var(--font-sans);
-  --tw-prose-body: var(--color-brand-pastel-400);
-  --tw-prose-headings: var(--color-brand-highlight);
-  --tw-prose-lead: var(--color-brand-pastel-300);
-  --tw-prose-links: var(--color-brand-highlight);
-  --tw-prose-bold: var(--color-brand-pastel-100);
-  --tw-prose-counters: var(--color-brand-pastel-500);
-  --tw-prose-bullets: var(--color-brand-pastel-500);
-  --tw-prose-hr: var(--color-brand-deep-300);
-  --tw-prose-quotes: var(--color-brand-pastel-200);
-  --tw-prose-quote-borders: var(--color-brand-highlight);
-  --tw-prose-captions: var(--color-brand-pastel-500);
-  --tw-prose-code: var(--color-brand-pastel-100);
-  --tw-prose-pre-code: var(--color-brand-pastel-200);
-  --tw-prose-pre-bg: var(--color-brand-deep-50);
-  --tw-prose-th-borders: var(--color-brand-deep-300);
-  --tw-prose-td-borders: var(--color-brand-deep-300);
-}
-
-.prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6 {
-  font-family: var(--font-display);
-  letter-spacing: -0.02em;
-}
+.animate-fade-up { animation: fade-up 0.6s ease-out both; }
+.animate-fade-in { animation: fade-in 0.5s ease-out both; }

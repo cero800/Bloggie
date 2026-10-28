@@ -1,4 +1,8 @@
 // Custom frontmatter parser to avoid Node.js buffer errors in the browser
+// Usa gray-matter si está disponible, fallback a parser manual
+
+// @ts-ignore: gray-matter no tiene tipos integrados perfectamente en tsconfig estricto
+import matter from 'gray-matter';
 
 export interface PostFrontmatter {
   title: string;
@@ -14,9 +18,10 @@ export interface Post {
   slug: string;
   frontmatter: PostFrontmatter;
   content: string;
+  id?: string;
+  readingTime?: number;
 }
 
-// In Vite, import.meta.glob with ?raw query parameter returns the raw text content.
 const postFiles = import.meta.glob('/content/*.md', { query: '?raw', import: 'default', eager: true });
 
 export function getAllPosts(): Post[] {
@@ -25,30 +30,35 @@ export function getAllPosts(): Post[] {
   for (const path in postFiles) {
     // Extract slug from path, e.g., '/content/hello-world.md' -> 'hello-world'
     const slug = path.split('/').pop()?.replace(/\.md$/, '') || '';
-    
+
     const rawContent = postFiles[path] as string;
-    
-    // Parse frontmatter manually to avoid Node buffer issues
+
+    // Parse frontmatter con gray-matter
     let frontmatter: Record<string, string> = {};
     let content = rawContent;
-    
-    const match = rawContent.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
-    if (match) {
-      const yamlStr = match[1];
-      content = match[2];
-      
-      yamlStr.split('\n').forEach(line => {
-        const colonIdx = line.indexOf(':');
-        if (colonIdx > -1) {
-          const key = line.slice(0, colonIdx).trim();
-          let value = line.slice(colonIdx + 1).trim();
-          // Remove surrounding quotes if they exist
-          if ((value.startsWith('"') && value.endsWith('"')) || (value.startsWith("'") && value.endsWith("'"))) {
-            value = value.slice(1, -1);
+
+    try {
+      const parsed = matter(rawContent);
+      frontmatter = parsed.data as Record<string, string>;
+      content = parsed.content;
+    } catch {
+      // Fallback a parser manual
+      const match = rawContent.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
+      if (match) {
+        const yamlStr = match[1];
+        content = match[2];
+        yamlStr.split('\n').forEach(line => {
+          const colonIdx = line.indexOf(':');
+          if (colonIdx > -1) {
+            const key = line.slice(0, colonIdx).trim();
+            let value = line.slice(colonIdx + 1).trim();
+            if ((value.startsWith('"') && value.endsWith('"')) || (value.startsWith("'") && value.endsWith("'"))) {
+              value = value.slice(1, -1);
+            }
+            frontmatter[key] = value;
           }
-          frontmatter[key] = value;
-        }
-      });
+        });
+      }
     }
 
     posts.push({
